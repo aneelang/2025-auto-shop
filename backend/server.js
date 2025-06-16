@@ -1,7 +1,6 @@
 // =============================================================
 // FILE: backend/server.js
-// INSTRUCTIONS: This version is for debugging. It temporarily
-// allows connections from any website to confirm the issue.
+// INSTRUCTIONS: This is the final, production-ready version.
 // =============================================================
 
 // --- 1. Imports and Initial Setup ---
@@ -15,9 +14,23 @@ const PORT = process.env.PORT || 5001;
 
 // --- 2. Middleware ---
 
-// --- DEBUGGING CORS CONFIGURATION (THE FIX IS HERE) ---
-// We are temporarily allowing ALL origins to confirm the problem.
-app.use(cors());
+// --- FINAL CORS CONFIGURATION (THE FIX IS HERE) ---
+const whitelist = [
+  'http://localhost:3000', 
+  'https://2025-auto-shop-hlob-arc4lxg8e-adithyas-projects-648ebdbe.vercel.app'
+]; 
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 
 // Enable parsing of JSON in request bodies
