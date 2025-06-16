@@ -1,6 +1,7 @@
 // =============================================================
 // FILE: backend/server.js
-// INSTRUCTIONS: This is the final, production-ready version.
+// INSTRUCTIONS: This is the final, production-ready version
+// with the correct Vercel production URL whitelisted.
 // =============================================================
 
 // --- 1. Imports and Initial Setup ---
@@ -17,7 +18,7 @@ const PORT = process.env.PORT || 5001;
 // --- FINAL CORS CONFIGURATION (THE FIX IS HERE) ---
 const whitelist = [
   'http://localhost:3000', 
-  'https://2025-auto-shop-hlob-arc4lxg8e-adithyas-projects-648ebdbe.vercel.app'
+  'https://2025-auto-shop-hlob.vercel.app' // Correct Vercel Production URL
 ]; 
 const corsOptions = {
   origin: function (origin, callback) {
