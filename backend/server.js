@@ -1,7 +1,7 @@
 // =============================================================
 // FILE: backend/server.js
 // INSTRUCTIONS: Replace your entire server.js file with this
-// updated code. The key change is in the `cors` configuration.
+// updated code. The key change is in the `corsOptions`.
 // =============================================================
 
 // --- 1. Imports and Initial Setup ---
@@ -16,16 +16,27 @@ const PORT = process.env.PORT || 5001;
 // --- 2. Middleware ---
 
 // --- CORS CONFIGURATION (THE FIX IS HERE) ---
-// This is a more robust configuration to handle preflight requests.
+// Add your live Vercel URL to this whitelist array.
+const whitelist = [
+  'http://localhost:3000', 
+  'https://2025-auto-shop-hlob.vercel.app' // Vercel URL is now whitelisted
+]; 
 const corsOptions = {
-  origin: 'http://localhost:3000', // Allow only the frontend to access
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE", // Specify allowed methods
-  credentials: true, // Allow cookies to be sent
-  optionsSuccessStatus: 204 // For legacy browser support
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    // or if the origin is in our trusted list.
+    if (!origin || whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
 };
-
 // Use the configured CORS options
 app.use(cors(corsOptions));
+
 
 // Enable parsing of JSON in request bodies
 app.use(express.json());
