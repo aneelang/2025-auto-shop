@@ -1,5 +1,12 @@
 {
-  "dependencies": {
-    "axios": "^1.10.0"
+  "name": "auto-shop-monorepo",
+  "version": "1.0.0",
+  "description": "Main package file for Heroku deployment.",
+  "scripts": {
+    "start": "npm start --prefix backend",
+    "heroku-postbuild": "npm install --prefix backend"
+  },
+  "engines": {
+    "node": "18.x"
   }
 }
